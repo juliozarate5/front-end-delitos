@@ -4,7 +4,7 @@ import LoginApp from './components/login/LoginApp';
 function App() {
   return (
     <div className="App">
-      <LoginApp title="Login"/>
+      <LoginApp title="Ingreso"/>
     </div>
   );
 }
