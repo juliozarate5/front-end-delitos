@@ -1,31 +1,103 @@
-import React from 'react'
+import React, { useContext } from 'react'
+import { Link, NavLink, useHistory } from 'react-router-dom'
+import {AuthContext} from '../../auth/AuthContext';
+import { types } from '../../types/types';
 
-export default function NavBar(props) {
-    const {title} = props;
+export default function NavBar() {
+
+    const history = useHistory();
+
+    const {user: {name, logged}, dispatch } = useContext(AuthContext);
+    const sendLogout = (e) => {
+        e.preventDefault();
+        history.replace('/login')
+        dispatch({
+            type: types.logout
+        })
+        localStorage.removeItem('user');
+    }
     return (
-        <nav className="navbar navbar-expand-lg navbar-light bg-light">
-        <div className="container-fluid">
-            <a className="navbar-brand" href="#">{title}</a>
-            <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span className="navbar-toggler-icon"></span>
-            </button>
-            <div className="collapse navbar-collapse" id="navbarNav">
-            <ul className="navbar-nav">
-                <li className="nav-item">
-                    <a className="nav-link active" aria-current="page" href="#">Ingreso</a>
+    <nav id="navbar-example2" className="navbar navbar-light bg-light px-3">
+    <Link className="navbar-brand" to="/login">HelpMeIUD</Link>
+    <ul className="nav nav-pills">
+        {
+          !logged && (
+            <NavLink
+            className="nav-item nav-link" 
+            to="/login"
+            activeClassName="active"
+            exact
+          >
+            Login
+           </NavLink>
+          )
+        }
+
+        {!logged && (<NavLink
+            className="nav-item nav-link" 
+            to="/register"
+            activeClassName="active"
+            exact
+         >
+            Registro
+        </NavLink>)}
+        <NavLink
+            className="nav-item nav-link" 
+            to="/map"
+            activeClassName="active"
+            exact
+         >
+            Mapa
+        </NavLink>
+        {logged && (
+                    <NavLink
+                    className="nav-item nav-link" 
+                    to="/report"
+                    activeClassName="active"
+                    exact
+                 >
+                    Reportar
+                </NavLink>
+        )}
+        {logged && (
+        <NavLink
+            className="nav-item nav-link" 
+            to="/delitos"
+            activeClassName="active"
+            exact
+        >
+            Delitos
+        </NavLink>
+        )}
+        <NavLink
+            className="nav-item nav-link" 
+            to="/about"
+            activeClassName="active"
+            exact
+         >
+            Acerca
+        </NavLink>
+        {logged && (
+            <li className="nav-item dropdown">
+                    <a className="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">
+                        {name}
+                    </a>
+                <ul className="dropdown-menu">
+                <NavLink
+                    className="dropdown-item" 
+                    to="/profile"
+                    exact
+                 >
+                     Mi Perfil
+                 </NavLink>
+                 <li><hr className="dropdown-divider"/></li>
+                 <li>
+                   <a className="dropdown-item"  href="#" onClick={sendLogout}>  Salir</a>
+                 </li>
+                </ul>
                 </li>
-                <li className="nav-item">
-                    <a className="nav-link" href="#">Registro</a>
-                </li>
-                <li className="nav-item">
-                    <a className="nav-link" href="#">Mapa</a>
-                </li>
-                <li className="nav-item">
-                    <a className="nav-link" href="#" tabIndex="-1">Nosotros</a>
-                </li>
-            </ul>
-            </div>
-        </div>
-        </nav>
+        )}
+    </ul>
+    </nav>
     )
 }
