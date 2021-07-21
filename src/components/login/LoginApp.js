@@ -2,12 +2,22 @@ import React, { useContext } from 'react'
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../../auth/AuthContext';
 import { types } from '../../types/types';
+import {messages} from '../../utils/messages';
+import Swal from 'sweetalert2';
+import { AuthService } from '../../services/AuthService';
 
 export default function LoginApp({ history }) {
 
     const { dispatch } = useContext(AuthContext);
 
     const sendLogin = () => {
+        console.log(messages.ERROR_GENERAL);
+        const user = {
+            username: 'julio.martinez@iudigital.edu.co', 
+            password: '123456'
+        };
+        AuthService.login(user)
+        ;
         const lastPath = localStorage.getItem('lastPath') || '/profile';
         dispatch({
             type: types.login,
@@ -15,8 +25,8 @@ export default function LoginApp({ history }) {
                 name: 'Julio'
             }
         });
-
         history.replace(lastPath);
+        return Swal.fire('Error','Error al Logear', 'error');
     };
 
     return (
@@ -40,7 +50,6 @@ export default function LoginApp({ history }) {
             <Link to="/">
                 <p>Recuperar contraseña</p>
             </Link>
-           
         </div>
         </>
     )
