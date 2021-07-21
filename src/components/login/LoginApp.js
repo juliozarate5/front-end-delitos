@@ -17,7 +17,9 @@ export default function LoginApp({ history }) {
             password: '123456'
         };
         AuthService.login(user)
-        ;
+        .then(r => console.log(r))
+        .catch(e => console.log(e));
+        
         const lastPath = localStorage.getItem('lastPath') || '/profile';
         dispatch({
             type: types.login,

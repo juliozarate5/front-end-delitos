@@ -10,7 +10,6 @@ import MapView from '../components/maps/MapView';
 import NavBar from '../components/ui/NavBar';
 import MenuRoutes from './MenuRoutes';
 import Privates from './Privates';
-import Publics from './Publics';
 
 export default function AppRouter() {
     const { user } = useContext(AuthContext);

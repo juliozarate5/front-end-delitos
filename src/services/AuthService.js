@@ -13,13 +13,12 @@ export const AuthService = {
         params.set('grant_type', 'password');
         params.set('username', user.username);
         params.set('password', user.password);
-        Axios.post(
+        return await Axios.post(
                 process.env.REACT_APP_AUTH_URL,
                 params, {
                     headers: headers
                 }
-            ).then(r => console.log(r))
-            .catch(e => console.log(e));
+            );
     },
 
-}
+};
