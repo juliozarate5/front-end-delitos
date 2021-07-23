@@ -1,22 +1,26 @@
-import React, { useEffect, useReducer } from 'react';
+import React, { useEffect, useReducer, useState } from 'react';
 import { AuthContext } from './auth/AuthContext';
 import { authReducer } from './auth/authReducer';
 import AppRouter from './routers/AppRouter';
+import { InfoUsers } from './utils/InfoUsers';
 
 
 const init = () => {
-  return JSON.parse(localStorage.getItem('user')) || {logged: false};
+  return JSON.parse(sessionStorage.getItem('user')) || {logged: false};
 }
 function App() {
 
   const [user, dispatch] = useReducer(authReducer, {}, init);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
-    localStorage.setItem('user', JSON.stringify(user));
+    sessionStorage.setItem('user', JSON.stringify(user));
+    const existe = InfoUsers.roleExiste('ROLE_ADMIN');
+    setIsAdmin(existe);
   }, [user])
 
   return (
-        <AuthContext.Provider value={{ user, dispatch }}>
+        <AuthContext.Provider value={{ user, dispatch, isAdmin }}>
           <AppRouter/>
         </AuthContext.Provider>
   );

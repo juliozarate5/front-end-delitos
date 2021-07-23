@@ -12,7 +12,7 @@ export default function Publics({
             component={ (props) => (
                 (!isAuthenticated)
                 ? (<Component {...props}/>) 
-                : (<Redirect to="/"/>)
+                : (<Redirect to="/profile"/>)
             )}
         />
     )

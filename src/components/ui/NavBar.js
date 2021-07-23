@@ -1,27 +1,28 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Link, NavLink, useHistory } from 'react-router-dom'
 import {AuthContext} from '../../auth/AuthContext';
 import { types } from '../../types/types';
+import { InfoUsers } from '../../utils/InfoUsers';
 
 export default function NavBar() {
 
     const history = useHistory();
 
-    const {user: {name, logged}, dispatch } = useContext(AuthContext);
+    const {user: {user, logged}, dispatch, isAdmin } = useContext(AuthContext);
     const sendLogout = (e) => {
         e.preventDefault();
         history.replace('/login')
         dispatch({
             type: types.logout
         })
-        localStorage.removeItem('user');
+        sessionStorage.removeItem('user');
     }
     return (
     <nav id="navbar-example2" className="navbar navbar-light bg-light px-3">
-    <Link className="navbar-brand" to="/login">HelpMeIUD</Link>
+    <Link className="navbar-brand" >HelpMeIUD</Link>
     <ul className="nav nav-pills">
         {
-          !logged && (
+          !user && (
             <NavLink
             className="nav-item nav-link" 
             to="/login"
@@ -33,7 +34,7 @@ export default function NavBar() {
           )
         }
 
-        {!logged && (<NavLink
+        {!user && (<NavLink
             className="nav-item nav-link" 
             to="/register"
             activeClassName="active"
@@ -49,7 +50,7 @@ export default function NavBar() {
          >
             Mapa
         </NavLink>
-        {logged && (
+        {user && (
                     <NavLink
                     className="nav-item nav-link" 
                     to="/report"
@@ -59,7 +60,7 @@ export default function NavBar() {
                     Reportar
                 </NavLink>
         )}
-        {logged && (
+        {(user && isAdmin) && (
         <NavLink
             className="nav-item nav-link" 
             to="/delitos"
@@ -77,10 +78,10 @@ export default function NavBar() {
          >
             Acerca
         </NavLink>
-        {logged && (
+        {user && (
             <li className="nav-item dropdown">
                     <a className="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">
-                        {name}
+                        {user.nombre}
                     </a>
                 <ul className="dropdown-menu">
                 <NavLink
