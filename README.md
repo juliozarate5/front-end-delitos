@@ -1,9 +1,12 @@
 ### Variables de entorno
 
 Crear un archivo llamado .env en la raiz del proyecto. Y coloca las variables: 
-REACT_APP__BASE_URL=URL_DEL_HOST
-REACT_APP_GOOGLE_MAPS_KEY=LLAVE_DE_GOOGLE_MAPS
-
+REACT_APP_NAME=reactapp
+REACT_APP_BASE_URL=http://localhost:8082/api/v1
+REACT_APP_AUTH_URL=http://localhost:8082/api/v1/oauth/token
+REACT_APP_AUTH_PASSWORD=123456
+REACT_APP_GRANT_TYPE=password
+REACT_APP_GOOGLE_MAPS_KEY=TU_KEY_DE_GOOGLE_AQUI
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
