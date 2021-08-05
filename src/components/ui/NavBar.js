@@ -1,14 +1,13 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext } from 'react'
 import { Link, NavLink, useHistory } from 'react-router-dom'
 import {AuthContext} from '../../auth/AuthContext';
 import { types } from '../../types/types';
-import { InfoUsers } from '../../utils/InfoUsers';
 
 export default function NavBar() {
 
     const history = useHistory();
 
-    const {user: {user, logged}, dispatch, isAdmin } = useContext(AuthContext);
+    const {user: {user}, dispatch, isAdmin } = useContext(AuthContext);
     const sendLogout = (e) => {
         e.preventDefault();
         history.replace('/login')
@@ -19,7 +18,12 @@ export default function NavBar() {
     }
     return (
     <nav id="navbar-example2" className="navbar navbar-light bg-light px-3">
-    <Link className="navbar-brand" >HelpMeIUD</Link>
+    {user && (
+        <Link to="/profile" className="navbar-brand" >HelpMeIUD</Link>
+    )}
+    {!user && (
+        <Link to="/login" className="navbar-brand" >HelpMeIUD</Link>
+    )}
     <ul className="nav nav-pills">
         {
           !user && (

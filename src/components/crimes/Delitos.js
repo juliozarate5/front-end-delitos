@@ -1,9 +1,28 @@
-import React from 'react'
+import React, { useContext } from 'react';
+import { AuthContext } from '../../auth/AuthContext';
+import NoAuthorized from '../ui/NoAuthorized';
 
 export default function Delitos() {
+
+    const {isAdmin } = useContext(AuthContext);
+
     return (
-        <div>
-            delitos
-        </div>
+        <>
+        {isAdmin &&
+        (<div>
+            delitos!<br/>
+            delitos!<br/>
+            delitos!<br/>
+            delitos!<br/>
+            delitos!<br/>
+            delitos!<br/>
+        </div>)
+        }
+        {
+          !isAdmin && (
+              <NoAuthorized />
+          )  
+        }
+        </>
     )
 }

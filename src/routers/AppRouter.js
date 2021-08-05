@@ -18,7 +18,7 @@ export default function AppRouter() {
     return (
         <Router>
             <NavBar />
-            <main class="flex-shrink-0">
+            <main className="flex-shrink-0">
             <Switch>
                 <Route exact path="/login" component={ LoginApp }/>
                 <Route exact path="/map" component={ MapView }/>

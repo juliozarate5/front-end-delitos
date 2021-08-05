@@ -4,6 +4,7 @@ import About from '../components/About';
 import LoginApp from '../components/login/LoginApp';
 import Register from '../components/login/Register';
 import MapView from '../components/maps/MapView';
+import NoAuthorized from '../components/ui/NoAuthorized';
 
 export default function PublicRoutes() {
     return (
@@ -14,6 +15,7 @@ export default function PublicRoutes() {
                 <Route exact path="/map" component={ MapView }/>
                 <Route exact path="/about" component={ About } />
                 <Route exact path="/register" component={ Register } />
+                <Route exact path="/noauthorized" component= { NoAuthorized}/>
              </Switch>   
             </div> 
         </>

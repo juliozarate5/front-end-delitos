@@ -4,8 +4,8 @@ import Card from './ui/Card'
 export default function About() {
     return (
         <div className="container my-3">
-            <div class="row row-cols-1 row-cols-md-3 g-4">
-            <div class="col">
+            <div className="row row-cols-1 row-cols-md-3 g-4">
+            <div className="col">
                 <Card 
                     title={`¿Quienes somos?`}
                     texto={`HelmeIUD nace para ...`}
@@ -13,7 +13,7 @@ export default function About() {
                     src={`https://www.iudigital.edu.co/Noticias/PublishingImages/soy_iu_digital_517.jpg`}
                 />
             </div>
-            <div class="col">
+            <div className="col">
                 <Card 
                     title={`Proyecto`}
                     texto={`Ayudar en comunidad a estar prevenidos

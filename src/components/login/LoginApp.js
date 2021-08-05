@@ -27,11 +27,12 @@ export default function LoginApp({ history }) {
     const handleValidation = () => {
         let errors = {};
         let isValid = true;
+        //setReq(true);
         //Email
         if(!user.username){
             isValid = false;
             errors["username"] = "Email requerido";
-        } 
+        }else
         if(typeof user.username !== "undefined" && user.username!==''){
            let lastAtPos = user.username.lastIndexOf('@');
            let lastDotPos = user.username.lastIndexOf('.');
@@ -43,12 +44,16 @@ export default function LoginApp({ history }) {
               isValid = false;
               errors["username"] = "Email no válido";
             }
+       }else{
+            errors["username"] = "";
        }  
        // password
        if(!user.password){
-        isValid = false;
-        errors["password"] = "Contraseña requerida";
-    }  
+            isValid = false;
+            errors["password"] = "Contraseña requerida";
+        }else{
+            errors["password"] = "";
+        }
        setErrors({...errors});
        return isValid;
    }
@@ -56,7 +61,6 @@ export default function LoginApp({ history }) {
     const sendLogin = e => {
         e.preventDefault();
         if(handleValidation()){
-            console.log(messages.ERROR_GENERAL);
             AuthService.login(user)
             .then(r => {
                 const lastPath = localStorage.getItem('lastPath') || '/profile';
@@ -70,7 +74,7 @@ export default function LoginApp({ history }) {
             })
             .catch(e => {
                 console.log(e);
-                return Swal.fire('Error','Credenciales inválidas', 'error');
+                return Swal.fire('Error',messages.CREDS_INVALIDAS, 'error');
             });   
         } 
     };
@@ -94,11 +98,10 @@ export default function LoginApp({ history }) {
                     <label  htmlFor="exampleInputEmail1" className="form-label">Email</label>
                     <input 
                         autoComplete="off"
-                        refs="username"
                         name="username"
                         onChange={handleChange}
                         required={req} 
-                        type="email" 
+                        type="text" 
                         className="form-control" 
                         id="exampleInputEmail1" 
                         aria-describedby="emailHelp"
@@ -112,7 +115,6 @@ export default function LoginApp({ history }) {
                     <label htmlFor="exampleInputPassword1" className="form-label">Contraseña</label>
                     <input
                         autoComplete="off"
-                        refs="password"
                         name="password"
                         onChange={handleChange}
                         required={req} 
@@ -131,11 +133,8 @@ export default function LoginApp({ history }) {
                     Enviar
                 </button>
                 </form>
-                <Link to="/">
+                <Link to="/register">
                     <p>¿No estás registrado?</p>
-                </Link>
-                <Link to="/">
-                    <p>Recuperar contraseña</p>
                 </Link>
             </div>
         </div>

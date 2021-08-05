@@ -13,7 +13,7 @@ export default function Privates({
             component={ (props) => (
                 (isAuthenticated)
                 ? (<Component {...props} />) 
-                : (<Redirect to="/noauthorized"/>)
+                : (<Redirect to="/login"/>)
             )}
         />
     )
