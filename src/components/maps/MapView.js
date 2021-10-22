@@ -2,7 +2,7 @@ import React, {
   Component
 } from 'react';
 import GoogleMapReact from 'google-map-react';
-import { MapService } from '../../services/public/MapService';
+import { getAllCasos } from '../../services/public/MapService';
 
 const AnyReactComponent = ({
   text, url
@@ -24,7 +24,6 @@ class MapView extends Component {
   };
 
   handleApiLoaded = (map, maps) => {
-
     this.setState({
       map
     });
@@ -54,7 +53,7 @@ class MapView extends Component {
 
   componentDidMount = () => {
     this.getLocation();
-    MapService.getAllCasos()
+    getAllCasos()
     .then(c => {
       console.log(c.data);
       this.setState({locations: c.data});

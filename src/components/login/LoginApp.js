@@ -4,11 +4,13 @@ import { AuthContext } from '../../auth/AuthContext';
 import { types } from '../../types/types';
 import {messages} from '../../utils/messages';
 import Swal from 'sweetalert2';
-import { AuthService } from '../../services/AuthService';
+import { login } from '../../services/AuthService';
 
 
 export default function LoginApp({ history }) {
 
+    const [off, setOff] = useState("off");
+    const [loading, setLoading] = useState(false);
     const { dispatch } = useContext(AuthContext);
     const [req, setReq] = useState(false);
     const [user, setUser] = useState({
@@ -21,7 +23,8 @@ export default function LoginApp({ history }) {
     })
 
     useEffect(() => {
-        console.log('erros')
+        setOff("off");
+        console.log('login')
     }, []);
 
     const handleValidation = () => {
@@ -61,7 +64,8 @@ export default function LoginApp({ history }) {
     const sendLogin = e => {
         e.preventDefault();
         if(handleValidation()){
-            AuthService.login(user)
+            setLoading(true);
+            login(user)
             .then(r => {
                 const lastPath = localStorage.getItem('lastPath') || '/profile';
                 dispatch({
@@ -71,9 +75,14 @@ export default function LoginApp({ history }) {
                     }
                 });
                 history.replace(lastPath);
+                setLoading(false);
             })
             .catch(e => {
-                console.log(e);
+                const {data} = e.response;
+                console.log(data);
+                setLoading(false);
+                if(data.message)
+                    return Swal.fire('Error', data.message, 'error');
                 return Swal.fire('Error',messages.CREDS_INVALIDAS, 'error');
             });   
         } 
@@ -93,11 +102,13 @@ export default function LoginApp({ history }) {
                 <h2 className="d-none">2</h2>
                 <h3 className="d-none">3</h3>
                 <h4 className="mb-3">Ingresa</h4>
-                <form onSubmit={sendLogin}>
+                <form 
+                    onSubmit={sendLogin}
+                >
                 <div className="mb-3">
-                    <label  htmlFor="exampleInputEmail1" className="form-label">Email</label>
+                    <label htmlFor="exampleInputEmail1" className="form-label">Email</label>
                     <input 
-                        autoComplete="off"
+                        autoComplete={off}
                         name="username"
                         onChange={handleChange}
                         required={req} 
@@ -114,7 +125,7 @@ export default function LoginApp({ history }) {
                 <div className="mb-3">
                     <label htmlFor="exampleInputPassword1" className="form-label">Contraseña</label>
                     <input
-                        autoComplete="off"
+                        autoComplete="new-password"
                         name="password"
                         onChange={handleChange}
                         required={req} 
@@ -126,10 +137,19 @@ export default function LoginApp({ history }) {
                         {errors.password}
                     </div>
                 </div>
-                <button 
+                <button
+                    disabled={loading ? 1: 0}
                     type="submit"
                     className="btn btn-primary"
                 >
+                {loading && (
+                  <span 
+                    class="spinner-border spinner-border-sm" 
+                    role="status" 
+                    aria-hidden="true"
+                  >
+                  </span>
+                )}
                     Enviar
                 </button>
                 </form>

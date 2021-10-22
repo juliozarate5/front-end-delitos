@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import GoogleMapReact from 'google-map-react';
 import {AuthContext} from '../../auth/AuthContext';
-import { DelitoService } from '../../services/public/DelitoService';
+import { obtenerTodos } from '../../services/public/DelitoService';
 import { CasoService } from '../../services/private/CasoService';
 import Swal from 'sweetalert2';
 import { messages } from '../../utils/messages';
@@ -46,7 +46,7 @@ export default function Reportar() {
   useEffect(() => {
     getLocation();
     async function cargarDelitos() {
-        const response = await DelitoService.obtenerTodos();
+        const response = await obtenerTodos();
         const body = await response.data;
         setDelitos(body);   
     }

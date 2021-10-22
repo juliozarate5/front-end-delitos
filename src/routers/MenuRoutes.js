@@ -1,6 +1,6 @@
 import React from 'react'
 import { Redirect, Route, Switch } from 'react-router-dom'
-import Perfil from '../components/user/Perfil';
+import Perfil from '../components/user/Profile';
 import Reportar from '../components/cases/Reportar';
 import Delitos from '../components/crimes/Delitos';
 

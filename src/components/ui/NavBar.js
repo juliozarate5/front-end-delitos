@@ -1,6 +1,7 @@
 import React, { useContext } from 'react'
 import { Link, NavLink, useHistory } from 'react-router-dom'
 import {AuthContext} from '../../auth/AuthContext';
+import { logout } from '../../services/AuthService';
 import { types } from '../../types/types';
 
 export default function NavBar() {
@@ -14,20 +15,25 @@ export default function NavBar() {
         dispatch({
             type: types.logout
         })
-        sessionStorage.removeItem('user');
+        logout();
     }
     return (
     <nav id="navbar-example2" className="navbar navbar-light bg-light px-3">
     {user && (
-        <Link to="/profile" className="navbar-brand" >HelpMeIUD</Link>
+        <Link to="/profile" className="navbar-brand" tabindex="0" aria-label="Ir al Inicio">HelpMeIUD</Link>
     )}
     {!user && (
-        <Link to="/login" className="navbar-brand" >HelpMeIUD</Link>
+        <Link to="/login" className="navbar-brand" tabindex="0" aria-label="Ir al Inicio">HelpMeIUD</Link>
     )}
+    
     <ul className="nav nav-pills">
+        
         {
+            //<!-- chromevox classic extension-->
           !user && (
             <NavLink
+            tabIndex={1}
+            data-target="#"
             className="nav-item nav-link" 
             to="/login"
             activeClassName="active"
@@ -38,7 +44,9 @@ export default function NavBar() {
           )
         }
 
-        {!user && (<NavLink
+        {!user && (
+        <NavLink
+        tabIndex={2}
             className="nav-item nav-link" 
             to="/register"
             activeClassName="active"
@@ -47,6 +55,7 @@ export default function NavBar() {
             Registro
         </NavLink>)}
         <NavLink
+            tabIndex={3}
             className="nav-item nav-link" 
             to="/map"
             activeClassName="active"
@@ -75,6 +84,7 @@ export default function NavBar() {
         </NavLink>
         )}
         <NavLink
+            tabIndex={4}
             className="nav-item nav-link" 
             to="/about"
             activeClassName="active"
