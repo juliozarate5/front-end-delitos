@@ -20,3 +20,9 @@
 .spinner-grow{
     margin-left: -85px !important;
 }
+
+#camera{
+    margin-left: 79% !important;
+    margin-top: -35px;
+    margin-bottom: 20px;
+}

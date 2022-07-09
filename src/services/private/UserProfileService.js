@@ -25,8 +25,8 @@ export const edit = async (user) => {
 
 export const uploadImage = async (file) => {
     const headers = {
-        'Authorization': `Bearer ${JSON.parse(sessionStorage.getItem('token'))}`,
-    };
+    'Authorization': `Bearer ${JSON.parse(sessionStorage.getItem('token'))}`,
+};
     const url = process.env.REACT_APP_BASE_URL + "/usuarios/upload";
     const formData = new FormData();
     formData.append("image", file);

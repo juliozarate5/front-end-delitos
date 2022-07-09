@@ -3,6 +3,7 @@ import Swal from 'sweetalert2';
 import { getUserById, edit, uploadImage } from '../../services/private/UserProfileService';
 import {messages} from '../../utils/messages';
 import './Profile.css';
+import PropTypes from 'prop-types';
 
 const urlImg = process.env.REACT_APP_URL_IMG;
 const defaultImg = urlImg+'/default.png';
@@ -13,8 +14,7 @@ const initialUser = {
     image: '',
     imageSrc: ''
 }
-export default function Perfil() {
-    const [off, setOff] = useState("off");
+export default function Profile() {
     const [loading, setLoading] = useState(false);
     const [user, setUser] = useState(initialUser);
     const [errors, setErrors] = useState({
@@ -26,7 +26,6 @@ export default function Perfil() {
     
     useEffect(() => {
         let isMounted = true;  
-        setOff("off");
         const getUser = () => {
             getUserById().then(r => {
                 if(r.roles)delete(r.roles)
@@ -138,19 +137,23 @@ export default function Perfil() {
                         <span className="sr-only"></span>
                     </div>
                     )}
+                    <div id="camera">
+                        <i className="fas fa-camera"></i>
+                    </div>
+                    
                     <input type="file" accept="image/*" id="fileimage" onChange={handleFile}/>
                 </label>
                 
             <form 
                 className="needs-validation" 
                 onSubmit={sendRegister}
-                autoComplete={off}
+                autoComplete="off"
                 >
                     <div className="row g-3">
                         <div className="col-sm-6">
                         <label htmlFor="nombre" className="form-label">Nombre<span className="text-muted">*</span></label>
                         <input 
-                            autoComplete={off}
+                            autoComplete="off"
                             type="text" 
                             className="form-control" 
                             id="nombre"
@@ -168,7 +171,7 @@ export default function Perfil() {
                         <div className="col-sm-6">
                         <label htmlFor="apellido" className="form-label">Apellido<span className="text-muted">*</span></label>
                         <input 
-                            autoComplete={off}
+                            autoComplete="off"
                             type="text" 
                             className="form-control" 
                             id="apellido" 
@@ -186,7 +189,7 @@ export default function Perfil() {
                         <div className="col-12">
                         <label htmlFor="username" className="form-label">Email <span className="text-muted">*</span></label>
                         <input 
-                            autoComplete={off}
+                            autoComplete="off"
                             type="email" 
                             className="form-control" 
                             id="username" 
@@ -221,7 +224,7 @@ export default function Perfil() {
                         <div className="col-12">
                         <label htmlFor="fechaNacimiento" className="form-label">Fecha de Nacimiento <span className="text-muted">*</span></label>
                         <input 
-                            autoComplete={off}
+                            autoComplete="off"
                             type="date" 
                             className="form-control" 
                             id="fechaNacimiento" 
@@ -238,7 +241,7 @@ export default function Perfil() {
                     <button
                         disabled={loading ? 1 : 0}
                         type="submit"
-                        className="btn btn-primary w-50 btn-lg"
+                        className="btn btn-primary w-50 btn-lg button-standard"
                     >
                     {loading && (
                     <span 
@@ -254,4 +257,8 @@ export default function Perfil() {
             </div>
         </div>
     )
+}
+
+Profile.propTypes = {
+    loading: PropTypes.bool,
 }

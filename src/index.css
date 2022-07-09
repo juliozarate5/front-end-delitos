@@ -1,22 +1,14 @@
-button{
-  background-color: #24306E !important;
-  color: #ffffff !important;
+.button-standard{
+  background-color: #24306E;
+  color: #ffffff;
 }
 
-button:hover{
+.button-standard:hover{
   background-color: #67b5dd !important;
 }
 
 nav#navbar-example2{
   background-color: #67b5dd !important;
-  color: #ffffff !important;
-}
-
-footer.footer{
-  background-color: #24306E !important;
-}
-
-footer > div span.text-muted{
   color: #ffffff !important;
 }
 
@@ -34,4 +26,9 @@ footer > div span.text-muted{
 
 .navbar-brand{
   color: #ffffff !important;
+}
+
+/* pages */
+.needs-validation{
+  margin-bottom: 10vh;
 }

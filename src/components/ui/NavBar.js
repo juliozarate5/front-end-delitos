@@ -1,10 +1,13 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import { Link, NavLink, useHistory } from 'react-router-dom'
 import {AuthContext} from '../../auth/AuthContext';
 import { logout } from '../../services/AuthService';
 import { types } from '../../types/types';
+import './NavBar.css';
 
 export default function NavBar() {
+
+    const [isNavCollapsed, setIsNavCollapsed] = useState(true);
 
     const history = useHistory();
 
@@ -17,16 +20,29 @@ export default function NavBar() {
         })
         logout();
     }
+
+    const handleNavCollapse = () => setIsNavCollapsed(!isNavCollapsed);
+
     return (
-    <nav id="navbar-example2" className="navbar navbar-light bg-light px-3">
-    {user && (
-        <Link to="/profile" className="navbar-brand" tabindex="0" aria-label="Ir al Inicio">HelpMeIUD</Link>
+    <nav 
+        id="navbar-example2" 
+        className="navbar navbar-expand-lg navbar-light bg-light px-3"
+    >
+            {user && (
+        <Link to="/profile" className="navbar-brand" tabIndex={0} aria-label="Ir al Inicio">HelpMeIUD</Link>
     )}
     {!user && (
-        <Link to="/login" className="navbar-brand" tabindex="0" aria-label="Ir al Inicio">HelpMeIUD</Link>
+        <Link to="/login" className="navbar-brand" tabIndex={0} aria-label="Ir al Inicio">HelpMeIUD</Link>
     )}
     
-    <ul className="nav nav-pills">
+     <button className="custom-toggler navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample09" aria-controls="navbarsExample09" aria-expanded={!isNavCollapsed ? true : false} aria-label="Toggle navigation" 
+     onClick={handleNavCollapse}>
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class={`${isNavCollapsed ? 'collapse' : ''} navbar-collapse`} id="navbarsExample09">
+
+
+    <ul className="navbar-nav">
         
         {
             //<!-- chromevox classic extension-->
@@ -93,7 +109,7 @@ export default function NavBar() {
             Acerca
         </NavLink>
         {user && (
-            <li className="nav-item dropdown">
+            <li className="nav-item dropdown logout">
                     <a className="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">
                         {user.nombre}
                     </a>
@@ -106,13 +122,14 @@ export default function NavBar() {
                      Mi Perfil
                  </NavLink>
                  <li><hr className="dropdown-divider"/></li>
-                 <li>
+                 <li >
                    <a className="dropdown-item"  href="#" onClick={sendLogout}>  Salir</a>
                  </li>
                 </ul>
                 </li>
         )}
     </ul>
+    </div>
     </nav>
     )
 }

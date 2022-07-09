@@ -1,10 +1,11 @@
-import React from 'react'
-import Card from './ui/Card'
+import React from 'react';
+import Card from './ui/Card';
+import '../index.css';
 
 export default function About() {
     return (
         <div className="container my-3">
-            <div className="row row-cols-1 row-cols-md-3 g-4">
+            <div className="row row-cols-1 row-cols-md-3 g-4 needs-validation">
             <div className="col">
                 <Card 
                     title={`¿Quienes somos?`}

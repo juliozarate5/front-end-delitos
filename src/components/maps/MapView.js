@@ -3,6 +3,7 @@ import React, {
 } from 'react';
 import GoogleMapReact from 'google-map-react';
 import { getAllCasos } from '../../services/public/MapService';
+import '../../index.css';
 
 const AnyReactComponent = ({
   text, url
@@ -70,9 +71,12 @@ class MapView extends Component {
     <div style = {
         {
           height: '100vh',
-          width: '100%'
+          width: '100%',
+          marginBottom: '10vh'
         }
-      }>
+      }
+
+      >
       <GoogleMapReact 
         bootstrapURLKeys = {{key: process.env.REACT_APP_GOOGLE_MAPS_KEY}}
         defaultCenter = {this.state.center}

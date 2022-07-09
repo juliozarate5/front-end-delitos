@@ -5,6 +5,8 @@ import { obtenerTodos } from '../../services/public/DelitoService';
 import { CasoService } from '../../services/private/CasoService';
 import Swal from 'sweetalert2';
 import { messages } from '../../utils/messages';
+import '../../index.css';
+
 let marker = null;
 
 export default function Reportar() {
@@ -163,7 +165,7 @@ const getLocation = () => {
   };
     return (
     <div className="container">
-      <div className="col-md-12 col-lg-12 my-1">
+      <div className="col-md-12 col-lg-12 mb-6">
         <h1 className="d-none">1</h1>
         <h2 className="d-none">2</h2>
         <h3 className="d-none">3</h3>
@@ -227,10 +229,10 @@ const getLocation = () => {
                 {errors.descripcion}
                 </div>
             </div>
-            <hr className="my-4"/>
+            <hr className="my-1"/>
 
             <button 
-                className="w-50 btn btn-primary btn-lg"
+                className="w-50 btn btn-primary btn-lg button-standard"
                 type="submit"
             >
             Enviar

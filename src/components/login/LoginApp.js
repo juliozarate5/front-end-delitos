@@ -140,7 +140,7 @@ export default function LoginApp({ history }) {
                 <button
                     disabled={loading ? 1: 0}
                     type="submit"
-                    className="btn btn-primary"
+                    className="btn btn-primary button-standard"
                 >
                 {loading && (
                   <span 

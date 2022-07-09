@@ -6,6 +6,20 @@ import { Link } from 'react-router-dom';
 
 export default function Register() {
 
+    const today = (o) => {
+        var now = new Date();
+        var d = String(now.getDate()).padStart(2, '0');
+        var m = String(now.getMonth() + 1).padStart(2, '0');
+        var y = now.getFullYear() - o;
+        now = y+'-'+m+'-'+d;
+        return now;
+    }
+
+    const [controls, setControls] = useState({
+        maxDate: today(0),
+        minDate: today(110)
+    });
+
     const [loading, setLoading] = useState(false);
     const [user, setUser] = useState({
         nombre: '',
@@ -215,6 +229,8 @@ export default function Register() {
                         <div className="col-12">
                         <label htmlFor="fechaNacimiento" className="form-label">Fecha de Nacimiento <span className="text-muted">*</span></label>
                         <input 
+                            max={controls.maxDate}
+                            min={controls.minDate}
                             type="date" 
                             className="form-control" 
                             id="fechaNacimiento" 
@@ -244,7 +260,7 @@ export default function Register() {
                     <button
                         disabled={loading ? 1: 0 || !terms}
                         type="submit"
-                        className="btn btn-primary w-50 btn-lg"
+                        className="btn btn-primary w-50 btn-lg button-standard"
                     >
                     {loading && (
                     <span 
