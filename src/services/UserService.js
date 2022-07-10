@@ -5,7 +5,7 @@ const headers = {
 };
 
 export const register = async (user) => {
-    const url = process.env.REACT_APP_BASE_URL + "/usuarios/signup";
+    const url = "/usuarios/signup";
     console.log(user);
     return await axiosConfig.post(url, user, {
         headers

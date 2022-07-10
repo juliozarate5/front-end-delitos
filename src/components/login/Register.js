@@ -52,8 +52,6 @@ export default function Register() {
     const handleValidation = () => {
         let errors = {};
         let isValid = true;
-        //setReq(true);
-        //nombre
         if(!user.nombre){
             isValid = false;
             errors["nombre"] = "Nombre requerido";
@@ -157,6 +155,7 @@ export default function Register() {
                 <form 
                 className="needs-validation" 
                 onSubmit={sendRegister}
+                autoComplete="off"
                 >
                     <div className="row g-3">
                         <div className="col-sm-6">

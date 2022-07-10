@@ -15,6 +15,7 @@ const initialUser = {
     imageSrc: ''
 }
 export default function Profile() {
+    const [off] = useState('off')
     const [loading, setLoading] = useState(false);
     const [user, setUser] = useState(initialUser);
     const [errors, setErrors] = useState({
@@ -146,7 +147,7 @@ export default function Profile() {
             <form 
                 className="needs-validation" 
                 onSubmit={sendRegister}
-                autoComplete="off"
+                autoComplete={off}
                 >
                     <div className="row g-3">
                         <div className="col-sm-6">
