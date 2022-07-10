@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../auth/AuthContext';
 import { types } from '../../types/types';
 import {messages} from '../../utils/messages';
@@ -7,13 +7,15 @@ import Swal from 'sweetalert2';
 import { login } from '../../services/AuthService';
 
 
-export default function LoginApp({ history }) {
+export default function LoginApp() {
+
+    const history = useNavigate();
 
     const [off, setOff] = useState("off");
     const [loading, setLoading] = useState(false);
     const { dispatch } = useContext(AuthContext);
-    const [req, setReq] = useState(false);
-    const [user, setUser] = useState({
+    const [req] = useState(false);
+    const [usr, setUsr] = useState({
         username: '',
         password: '',
     });
@@ -24,26 +26,23 @@ export default function LoginApp({ history }) {
 
     useEffect(() => {
         setOff("off");
-        console.log('login')
     }, []);
 
     const handleValidation = () => {
         let errors = {};
         let isValid = true;
-        //setReq(true);
-        //Email
-        if(!user.username){
+        if(!usr.username){
             isValid = false;
             errors["username"] = "Email requerido";
         }else
-        if(typeof user.username !== "undefined" && user.username!==''){
-           let lastAtPos = user.username.lastIndexOf('@');
-           let lastDotPos = user.username.lastIndexOf('.');
+        if(typeof usr.username !== "undefined" && usr.username!==''){
+           let lastAtPos = usr.username.lastIndexOf('@');
+           let lastDotPos = usr.username.lastIndexOf('.');
 
            if (!(lastAtPos < lastDotPos && lastAtPos > 0 
-            && user.username.indexOf('@@') == -1 
+            && usr.username.indexOf('@@') === -1 
             && lastDotPos > 2 
-            && (user.username.length - lastDotPos) > 2)) {
+            && (usr.username.length - lastDotPos) > 2)) {
               isValid = false;
               errors["username"] = "Email no válido";
             }
@@ -51,7 +50,7 @@ export default function LoginApp({ history }) {
             errors["username"] = "";
        }  
        // password
-       if(!user.password){
+       if(!usr.password){
             isValid = false;
             errors["password"] = "Contraseña requerida";
         }else{
@@ -65,16 +64,16 @@ export default function LoginApp({ history }) {
         e.preventDefault();
         if(handleValidation()){
             setLoading(true);
-            login(user)
+            login(usr)
             .then(r => {
-                const lastPath = localStorage.getItem('lastPath') || '/profile';
+                const lastPath = localStorage.getItem('lastPath') || '/private/profile';
                 dispatch({
                     type: types.login,
                     payload: {
                         user: r.data
                     }
                 });
-                history.replace(lastPath);
+                history(lastPath, { replace: true })
                 setLoading(false);
             })
             .catch(e => {
@@ -89,8 +88,8 @@ export default function LoginApp({ history }) {
     };
 
     const handleChange = e => {
-        setUser({
-            ...user,
+        setUsr({
+            ...usr,
             [e.target.name]: e.target.value
         });
     }
@@ -144,7 +143,7 @@ export default function LoginApp({ history }) {
                 >
                 {loading && (
                   <span 
-                    class="spinner-border spinner-border-sm" 
+                    className="spinner-border spinner-border-sm" 
                     role="status" 
                     aria-hidden="true"
                   >

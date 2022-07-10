@@ -12,12 +12,12 @@ export default function Modal({title}) {
             <div className="modal-body">
             <form>
                 <div className="mb-3">
-                    <label for="name" className="form-label">Nombre</label>
+                    <label htmlFor="name" className="form-label">Nombre</label>
                     <input type="text" className="form-control" id="name" aria-describedby="name"/>
                     <div id="name" className="form-text">We'll never share your email with anyone else.</div>
                 </div>
                 <div className="mb-3">
-                    <label for="description" className="form-label">Descripción</label>
+                    <label htmlFor="description" className="form-label">Descripción</label>
                     <input type="text" className="form-control" id="description"/>
                 </div>
                 

@@ -6,7 +6,7 @@ import Create from './Create';
 
 export default function Crimes() {
 
-    const {isAdmin } = useContext(AuthContext);
+    const { isAdmin } = useContext(AuthContext);
 
     return (
         <>
@@ -34,13 +34,13 @@ export default function Crimes() {
                                 className="btn btn-outline-primary"
                                 title="Editar"
                             >
-                                <i class="fa fa-edit"></i>
+                                <i className="fa fa-edit"></i>
                             </button>
                             <button 
                                 className="btn btn-outline-danger"
                                 title="Eliminar este"
                             >
-                                <i class="fa fa-trash-alt"></i>
+                                <i className="fa fa-trash-alt"></i>
                             </button>
                         </td>
                     </tr>
@@ -54,13 +54,13 @@ export default function Crimes() {
                                 className="btn btn-outline-primary"
                                 title="Editar"
                             >
-                                <i class="fa fa-edit"></i>
+                                <i className="fa fa-edit"></i>
                             </button>
                             <button 
                                 className="btn btn-outline-danger"
                                 title="Eliminar este"
                             >
-                                <i class="fa fa-trash-alt"></i>
+                                <i className="fa fa-trash-alt"></i>
                             </button>
                         </td>
                     </tr>
@@ -73,7 +73,7 @@ export default function Crimes() {
                 className="btn btn-outline-success"
                 title="Agregar nuevo"
                 >
-                    <i class="fas fa-plus-circle"></i>
+                    <i className="fas fa-plus-circle"></i>
             </button>
         </div>)
         }

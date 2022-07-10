@@ -1,38 +1,41 @@
-import React, { useContext } from 'react'
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
-import { AuthContext } from '../auth/AuthContext';
-import About from '../components/About';
-
-
-import LoginApp from '../components/login/LoginApp';
-import Register from '../components/login/Register';
-import MapView from '../components/maps/MapView';
+import React from 'react'
+import { Route, Routes } from 'react-router-dom';
 import Footer from '../components/ui/Footer';
 import NavBar from '../components/ui/NavBar';
-import NoAuthorized from '../components/ui/NoAuthorized';
 import MenuRoutes from './MenuRoutes';
-import Privates from './Privates';
+import NeutralRoute from './NeutralRoute';
+import NeutralRoutes from './NeutralRoutes';
+import PrivateRoute from './PrivateRoute';
+import PublicRoute from './PublicRoute';
+import PublicRoutes from './PublicRoutes';
 
 export default function AppRouter() {
-    const { user } = useContext(AuthContext);
+    
     return (
-        <Router>
+        <>
             <NavBar />
             <main className="flex-shrink-0 mb-7">
-            <Switch>
-                <Route exact path="/login" component={ LoginApp }/>
-                <Route exact path="/map" component={ MapView }/>
-                <Route exact path="/about" component={ About } />
-                <Route exact path="/register" component={ Register } />
-                <Route exact path="/noauthorized" component= { NoAuthorized}/>
-                <Privates 
-                    path="/" 
-                    component={ MenuRoutes }
-                    isAuthenticated= {user.logged}
-                />
-            </Switch>
+            <Routes>
+                <Route path='/*' element={
+                    <PublicRoute>
+                        <PublicRoutes />
+                    </PublicRoute>
+                }/>
+
+                <Route path='public/*' element={
+                    <NeutralRoute>
+                        <NeutralRoutes />
+                    </NeutralRoute>
+                }/>
+
+                <Route path='/private/*' element={
+                    <PrivateRoute>
+                        <MenuRoutes/>
+                    </PrivateRoute>
+                }/>
+            </Routes>
             </main>
             <Footer year={new Date().getFullYear()}/>
-        </Router>
+        </>
     )
 }

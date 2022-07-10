@@ -62,7 +62,7 @@ export default function Reportar() {
 
   const _onClickMap = e => {
     const location = {lat: e.lat, lng: e.lng};
-    const map = new maps.Map(e.event.target, {
+    map = new maps.Map(e.event.target, {
       zoom: 11,
       center: location,
     });

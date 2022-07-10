@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react'
-import { Link, NavLink, useHistory } from 'react-router-dom'
+import { Link, NavLink, useNavigate } from 'react-router-dom'
 import {AuthContext} from '../../auth/AuthContext';
 import { logout } from '../../services/AuthService';
 import { types } from '../../types/types';
@@ -9,12 +9,12 @@ export default function NavBar() {
 
     const [isNavCollapsed, setIsNavCollapsed] = useState(true);
 
-    const history = useHistory();
+    const history = useNavigate();
 
     const {user: {user}, dispatch, isAdmin } = useContext(AuthContext);
     const sendLogout = (e) => {
         e.preventDefault();
-        history.replace('/login')
+        history('/login', { replace: true })
         dispatch({
             type: types.logout
         })
@@ -29,7 +29,7 @@ export default function NavBar() {
         className="navbar navbar-expand-lg navbar-light bg-light px-3"
     >
             {user && (
-        <Link to="/profile" className="navbar-brand" tabIndex={0} aria-label="Ir al Inicio">HelpMeIUD</Link>
+        <Link to="/private/profile" className="navbar-brand" tabIndex={0} aria-label="Ir al Inicio">HelpMeIUD</Link>
     )}
     {!user && (
         <Link to="/login" className="navbar-brand" tabIndex={0} aria-label="Ir al Inicio">HelpMeIUD</Link>
@@ -37,9 +37,9 @@ export default function NavBar() {
     
      <button className="custom-toggler navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample09" aria-controls="navbarsExample09" aria-expanded={!isNavCollapsed ? true : false} aria-label="Toggle navigation" 
      onClick={handleNavCollapse}>
-        <span class="navbar-toggler-icon"></span>
+        <span className="navbar-toggler-icon"></span>
       </button>
-      <div class={`${isNavCollapsed ? 'collapse' : ''} navbar-collapse`} id="navbarsExample09">
+      <div className={`${isNavCollapsed ? 'collapse' : ''} navbar-collapse`} id="navbarsExample09">
 
 
     <ul className="navbar-nav">
@@ -52,8 +52,6 @@ export default function NavBar() {
             data-target="#"
             className="nav-item nav-link" 
             to="/login"
-            activeClassName="active"
-            exact
           >
             Login
            </NavLink>
@@ -65,26 +63,20 @@ export default function NavBar() {
         tabIndex={2}
             className="nav-item nav-link" 
             to="/register"
-            activeClassName="active"
-            exact
          >
             Registro
         </NavLink>)}
         <NavLink
             tabIndex={3}
             className="nav-item nav-link" 
-            to="/map"
-            activeClassName="active"
-            exact
+            to="/public/map"
          >
             Mapa
         </NavLink>
         {user && (
                     <NavLink
                     className="nav-item nav-link" 
-                    to="/report"
-                    activeClassName="active"
-                    exact
+                    to="/private/report"
                  >
                     Reportar
                 </NavLink>
@@ -92,9 +84,7 @@ export default function NavBar() {
         {(user && isAdmin) && (
         <NavLink
             className="nav-item nav-link" 
-            to="/delitos"
-            activeClassName="active"
-            exact
+            to="/private/delitos"
         >
             Delitos
         </NavLink>
@@ -102,9 +92,7 @@ export default function NavBar() {
         <NavLink
             tabIndex={4}
             className="nav-item nav-link" 
-            to="/about"
-            activeClassName="active"
-            exact
+            to="/public/about"
          >
             Acerca
         </NavLink>
@@ -116,8 +104,7 @@ export default function NavBar() {
                 <ul className="dropdown-menu">
                 <NavLink
                     className="dropdown-item" 
-                    to="/profile"
-                    exact
+                    to="/private/profile"
                  >
                      Mi Perfil
                  </NavLink>

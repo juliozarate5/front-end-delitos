@@ -1,23 +1,20 @@
 import React from 'react'
-import { Route, Switch } from 'react-router-dom'
-import About from '../components/About';
+import { Navigate, Route, Routes } from 'react-router-dom'
 import LoginApp from '../components/login/LoginApp';
 import Register from '../components/login/Register';
-import MapView from '../components/maps/MapView';
 import NoAuthorized from '../components/ui/NoAuthorized';
+import NotFound from '../components/ui/NotFound';
 
 export default function PublicRoutes() {
+    
     return (
-        <>
-           <div>
-             <Switch>
-                <Route exact path="/login" component={ LoginApp }/>
-                <Route exact path="/map" component={ MapView }/>
-                <Route exact path="/about" component={ About } />
-                <Route exact path="/register" component={ Register } />
-                <Route exact path="/noauthorized" component= { NoAuthorized}/>
-             </Switch>   
-            </div> 
-        </>
+        <Routes> 
+            <Route path="/" element={<Navigate to="/login" replace />}/>
+            <Route path="/login" element={ <LoginApp /> }/>
+            <Route path="/register" element={ <Register /> } />
+            <Route path="/noauthorized" element= { <NoAuthorized />}/>
+            <Route path="*" element= { <NotFound />}/>
+        </Routes>
+
     )
 }

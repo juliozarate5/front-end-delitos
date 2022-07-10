@@ -15,7 +15,7 @@ export default function Register() {
         return now;
     }
 
-    const [controls, setControls] = useState({
+    const [controls ] = useState({
         maxDate: today(0),
         minDate: today(110)
     });
@@ -77,7 +77,7 @@ export default function Register() {
            let lastDotPos = user.username.lastIndexOf('.');
 
            if (!(lastAtPos < lastDotPos && lastAtPos > 0 
-            && user.username.indexOf('@@') == -1 
+            && user.username.indexOf('@@') === -1 
             && lastDotPos > 2 
             && (user.username.length - lastDotPos) > 2)) {
               isValid = false;
@@ -253,7 +253,7 @@ export default function Register() {
                             id="save-info"
                             onChange={changeTerms}
                         />
-                        <label className="form-check-label" htmlFor="save-info">Aceptar <a href="#"> términos y condiciones </a></label>
+                        <label className="form-check-label" htmlFor="save-info">Aceptar <a href="https://iudigital.edu.co"> términos y condiciones </a></label>
                     </div>
 
                     <hr className="my-4"/>                    
@@ -264,7 +264,7 @@ export default function Register() {
                     >
                     {loading && (
                     <span 
-                        class="spinner-border spinner-border-sm" 
+                        className="spinner-border spinner-border-sm" 
                         role="status" 
                         aria-hidden="true"
                     >

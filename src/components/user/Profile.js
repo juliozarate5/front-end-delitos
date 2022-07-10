@@ -47,15 +47,14 @@ export default function Profile() {
         })
         
     }
+
     getUser();
-    return () => { isMounted = false };
+        return () => { isMounted = false };
     }, []);
 
     const handleValidation = () => {
         let errors = {};
         let isValid = true;
-        //setReq(true);
-        //nombre
         if(!user.nombre){
             isValid = false;
             errors["nombre"] = "Nombre requerido";
@@ -160,7 +159,7 @@ export default function Profile() {
                             placeholder="Juanito" 
                             required="1"
                             name="nombre"
-                            value={user.nombre}
+                            value={user.nombre || ''}
                             onChange={handleChange}
                         />
                         <div className="invalid-feedback d-block">
@@ -178,7 +177,7 @@ export default function Profile() {
                             placeholder="Doe" 
                             required=""
                             name="apellido"
-                            value={user.apellido}
+                            value={user.apellido || ''}
                             onChange={handleChange}
                         />
                         <div className="invalid-feedback d-block">
@@ -195,7 +194,7 @@ export default function Profile() {
                             id="username" 
                             placeholder="you@example.com"
                             name="username"
-                            value={user.username}
+                            value={user.username  || ''}
                             disabled="1"
                         />
                         <div className="invalid-feedback d-block">
@@ -213,7 +212,7 @@ export default function Profile() {
                             placeholder="" 
                             required=""
                             name="password"
-                            value={user.password}
+                            value={user.password  || ''}
                             onChange={handleChange}
                         />
                         <div className="invalid-feedback d-block">
@@ -229,7 +228,7 @@ export default function Profile() {
                             className="form-control" 
                             id="fechaNacimiento" 
                             name="fechaNacimiento"
-                            value={user.fechaNacimiento}
+                            value={user.fechaNacimiento || ''}
                             onChange={handleChange}
                         />
                         <div className="invalid-feedback d-block">
@@ -245,7 +244,7 @@ export default function Profile() {
                     >
                     {loading && (
                     <span 
-                        class="spinner-border spinner-border-sm" 
+                        className="spinner-border spinner-border-sm" 
                         role="status" 
                         aria-hidden="true"
                     >
