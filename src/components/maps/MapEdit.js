@@ -4,6 +4,9 @@ import GoogleMapReact from 'google-map-react';
 let marker;
 
 class MapEdit extends Component {
+  constructor(props) {
+    super(props);
+  }
   state = {
     map: null,
     maps: null,
@@ -15,8 +18,6 @@ class MapEdit extends Component {
   };
 
   handleApiLoaded = (map, maps) => {
-    console.log(maps);
-    console.log(map)
     this.setState({map});
     this.setState({maps});
 
@@ -28,6 +29,7 @@ _onClickMap = (event) => {
     console.log(this.state.maps)
     const location = {lat: event.lat, lng: event.lng};
     if(marker){
+        console.log(location)
         marker.setPosition(location);
     }else{
         marker = new this.state.maps.Marker({
@@ -38,6 +40,8 @@ _onClickMap = (event) => {
             streetViewControl: true
         });
     }
+
+    this.props.onClickMap(event, this.state.map)
 }
 
   getLocation = () => {

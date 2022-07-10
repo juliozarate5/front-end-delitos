@@ -6,4 +6,5 @@ export const messages = {
     REG_EXITOSO: 'Registro exitoso',
     CHANGE_EXITOSO: 'Edición exitosa',
     ERROR_MODIFICAR: 'Error al intentar modificar',
+    ERROR_REGISTRO_CASO: 'Error al registrar caso'
 };

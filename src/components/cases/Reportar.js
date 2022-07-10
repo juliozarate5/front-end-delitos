@@ -1,29 +1,21 @@
 import React, { useContext, useEffect, useState } from 'react';
-import GoogleMapReact from 'google-map-react';
 import {AuthContext} from '../../auth/AuthContext';
 import { obtenerTodos } from '../../services/public/DelitoService';
-import { CasoService } from '../../services/private/CasoService';
+import { crear } from '../../services/private/CasoService';
 import Swal from 'sweetalert2';
 import { messages } from '../../utils/messages';
 import '../../index.css';
-
-let marker = null;
+import MapEdit from '../maps/MapEdit';
 
 export default function Reportar() {
+
+ const [loading, setLoading] = useState(false);
 
  const {user: {user}} = useContext(AuthContext);
 
  const [delitos, setDelitos] = useState([]);
 
-  const [map, setMap] = useState(null);
-  const [maps, setMaps] = useState(null);
-  const [center, setCenter] = useState( {
-    lat: 6.2440159,
-    lng: -75.5762419
-  });
-  const [zoom] = useState(11);
-
-  const [errors, setErrors] = useState({
+ const [errors, setErrors] = useState({
     mapa:'',
     descripcion: '',
     delito: ''
@@ -46,7 +38,6 @@ export default function Reportar() {
   });
 
   useEffect(() => {
-    getLocation();
     async function cargarDelitos() {
         const response = await obtenerTodos();
         const body = await response.data;
@@ -55,55 +46,22 @@ export default function Reportar() {
     cargarDelitos();
   }, []);
 
-  const handleApiLoaded = (map, maps) => {
-    setMap(map);
-    setMaps(maps);
-  }
+  const _onClickMap = (e, mapSt) => {
 
-  const _onClickMap = e => {
     const location = {lat: e.lat, lng: e.lng};
-    map = new maps.Map(e.event.target, {
-      zoom: 11,
-      center: location,
-    });
-    setMap(map)
-    console.log(map)
-    if(marker){
-        marker.setPosition(location);
-        marker.setLabel(location.lat + ", " + location.lng);
-        setCaso({
-        ...caso,
-            'latitud': location.lat,
-            'longitud': location.lng,
-            'urlMap':''
-        });
-    }else{
-        marker = new maps.Marker({
-            position: location,
-            draggable: true,
-            label: location.lat + ", " + location.lng,
-            map: map,
-            streetViewControl: true
-        });
-        
-    }
-  }
 
-const getLocation = () => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(showPosition);
-    } else {
-      console.log("Geolocation is not supported by this browser.");
-    }
-  }
-  
- const showPosition = (position) => {
-    console.log('ejecutando showposition')
-    let center = {};
-    center['lat'] = position.coords.latitude;
-    center['lng'] = position.coords.longitude;
-    setCenter({...center});
-  };
+    caso.latitud = location.lat;
+    caso.longitud = location.lng;
+    caso.rmiUrl = mapSt.rmiUrl
+    caso.urlMap = mapSt.mapUrl
+
+    setCaso({...caso});
+
+      setTimeout(() => {
+        console.log(caso)
+      }, 1000)
+  }  
+
 
   const handleValidation = () => {
     let errors = {};
@@ -115,7 +73,7 @@ const getLocation = () => {
         errors["descripcion"] = "";
     }
     //mapa
-    if(!user.urlMap){
+    if(!caso.urlMap){
         isValid = false;
         errors["mapa"] = "Ubique un punto en el mapa";
     }else{
@@ -134,7 +92,8 @@ const getLocation = () => {
   const sendRegister = e => {
     e.preventDefault();
     if(handleValidation()){
-        CasoService.crear(caso)
+        setLoading(true);
+        crear(caso)
         .then(r => {
             console.log(r);
             setCaso({
@@ -148,11 +107,13 @@ const getLocation = () => {
                     id: 0,
                 }
             });
+            setLoading(false);
             return Swal.fire('OK', messages.REG_EXITOSO, 'success');
         })
         .catch(e => {
+            setLoading(false);
             console.log(e);
-            return Swal.fire('Error', messages.ERROR_REGISTRO, 'error');
+            return Swal.fire('Error', messages.ERROR_REGISTRO_CASO, 'error');
         });   
     } 
   };
@@ -163,7 +124,17 @@ const getLocation = () => {
         [e.target.name]: e.target.value
     });
   };
-    return (
+
+  const handleChangeDelito = e => {
+    setCaso({
+        ...caso,
+        delito: {
+          id: e.target.value,
+        }
+    });
+  };
+
+  return (
     <div className="container">
       <div className="col-md-12 col-lg-12 mb-6">
         <h1 className="d-none">1</h1>
@@ -174,29 +145,20 @@ const getLocation = () => {
          className="needs-validation" 
          onSubmit={sendRegister}
         >
-        <div className="row">
-        <div className="col-12">
-            <div className="invalid-feedback d-block">
-                {errors.mapa}
+        <div className="row clear">
+          <div className="col-12">
+              <div className="invalid-feedback d-block">
+                  {errors.mapa}
+              </div>
+            <div style={{ height: '100vh', width: '100%'}}>
+              <MapEdit onClickMap={_onClickMap}/>
             </div>
-          <div style={{ height: '80vh', width: '100%' }}>
-            <GoogleMapReact
-            bootstrapURLKeys={{ key: process.env.REACT_APP_GOOGLE_MAPS_KEY }}
-            defaultCenter={center}
-            defaultZoom={zoom}
-            draggable={true}
-            yesIWantToUseGoogleMapApiInternals={true}
-            onGoogleApiLoaded={({ map, maps }) => handleApiLoaded( map, maps)}
-            onClick={_onClickMap}
-            >
-            </GoogleMapReact>
+            <div className="invalid-feedback d-block">
+              {errors.mapa}
+            </div>
+          </div>
         </div>
-          <div className="invalid-feedback d-block">
-            {errors.mapa}
-           </div>
-        </div>
-        </div>
-        <div className="row g-3">
+        <div className="row my-4">
             <div className="col-sm-6 col-lg-6">
                 <label htmlFor="delito" className="form-label">Delito<span className="text-muted">*</span></label>
                 <select 
@@ -204,7 +166,7 @@ const getLocation = () => {
                     id="delito" 
                     required=""
                     name="delito"
-                    onChange={handleChange}
+                    onChange={handleChangeDelito}
                 >
                     <option value=""> -- Selecciona delito -- </option>
                     {delitos.map((d) => <option key={d.id+1} value={d.id}>{d.nombre}</option>)}
@@ -232,9 +194,18 @@ const getLocation = () => {
             <hr className="my-1"/>
 
             <button 
+                disabled={loading ? 1: 0}
                 className="w-50 btn btn-primary btn-lg button-standard"
                 type="submit"
             >
+            {loading && (
+              <span 
+               className="spinner-border spinner-border-sm" 
+               role="status" 
+               aria-hidden="true"
+              >
+              </span>
+            )}
             Enviar
             </button>
         </div>
@@ -242,6 +213,6 @@ const getLocation = () => {
 
         </div>
       </div>
-    );
+  );
 
 }

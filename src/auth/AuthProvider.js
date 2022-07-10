@@ -14,8 +14,9 @@ export default function AuthProvider({children}) {
 
   useEffect(() => {
     sessionStorage.setItem('user', JSON.stringify(user));
-    if(user.user)
-      sessionStorage.setItem('token', JSON.stringify(user.user.access_token));
+    if(user.user){
+      sessionStorage.setItem('token', user.user.access_token);
+    }
     const existe = InfoUsers.roleExiste('ROLE_ADMIN');
     setIsAdmin(existe);
   }, [user])

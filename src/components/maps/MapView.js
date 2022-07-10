@@ -6,12 +6,11 @@ import { getAllCasos } from '../../services/public/MapService';
 import '../../index.css';
 
 const AnyReactComponent = ({
-  text, url
+  text, url, nombre, lat, lng
 }) =>
-(<div style = {{color: "red", background: "white"}}>
-  {<a href={url} target={`_blank`}>{text}</a>}
-</div>
-);
+(<i class='fas fa-user-secret' style = {{color: "red", background: "white"}} data-toggle="tooltip" data-placement="top" title={`${text} en: ${lat}, ${lng}`}>
+  {<a href={`${process.env.REACT_APP_URL_MAPS}${lat},${lng}`} target={`_blank`}>{nombre}</a>}
+</i>);
 class MapView extends Component {
   state = {
     map: null,
@@ -94,6 +93,7 @@ class MapView extends Component {
             lng = {l.longitud}
             text = {l.descripcion}
             url = {l.urlMap}
+            nombre = {l.nombre}
           />) 
         })
       }

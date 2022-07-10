@@ -1,11 +1,8 @@
-import Axios from "axios";
-Axios.defaults.headers.common.Authorization = `Bearer ${localStorage.getItem('token')}`;
+import { axiosConfigPrivate } from "../../config/axiosConfigPrivate";
 
-export const CasoService = {
-    async crear(caso) {
-        return await Axios.post(
-                process.env.REACT_APP_BASE_URL+"/casos",
-                caso
-            );
-    },
-};
+
+export const crear = async (caso = {}) => {
+    return await axiosConfigPrivate.post(
+        process.env.REACT_APP_BASE_URL+"/casos", caso
+    );
+}
