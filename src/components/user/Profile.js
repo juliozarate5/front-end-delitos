@@ -257,7 +257,6 @@ export default function Profile() {
         </div>
     )
 }
-
 Profile.propTypes = {
     loading: PropTypes.bool,
 }
