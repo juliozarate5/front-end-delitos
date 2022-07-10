@@ -111,7 +111,6 @@ export default function Profile() {
     const handleFile = e => {
         e.preventDefault();
         setLoading(true);
-        let user = {};
         const file = e.target.files[0];
         const url = URL.createObjectURL(file);
         user.image = file;
