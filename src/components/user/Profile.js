@@ -24,6 +24,16 @@ export default function Profile() {
         password: '',
         fechaNacimiento:'',
     });
+
+    const [loadingImg, setLoadingImg] = useState(true);
+
+    useEffect(() => {
+        const img = new Image();
+        img.src = user.imageSrc;
+        img.onload = () => {
+            setLoadingImg(false);
+        };
+    }, [user.imageSrc]);
     
     useEffect(() => {
         let isMounted = true;  
@@ -131,7 +141,7 @@ export default function Profile() {
             <div className="col-md-7 col-lg-8 my-3">
                 <label id="labelimage">
                     <img src={user.imageSrc} alt="Imagen de perfil" className="avatar"/>
-                    {loading && (
+                    {(loading || loadingImg) && (
                     <div className="spinner-grow spinner-grow-lg" role="status">
                         <span className="sr-only"></span>
                     </div>
