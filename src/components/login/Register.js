@@ -155,7 +155,7 @@ export default function Register() {
                 <form 
                 className="needs-validation" 
                 onSubmit={sendRegister}
-                autoComplete="off"
+                autocomplete="off"
                 >
                     <div className="row g-3">
                         <div className="col-sm-6">
@@ -202,6 +202,7 @@ export default function Register() {
                             name="username"
                             value={user.username}
                             onChange={handleChange}
+                            autoComplete="off"
                         />
                         <div className="invalid-feedback d-block">
                             {errors.username}
@@ -219,6 +220,7 @@ export default function Register() {
                             name="password"
                             value={user.password}
                             onChange={handleChange}
+                            autocomplete="off"
                         />
                         <div className="invalid-feedback d-block">
                             {errors.password}
