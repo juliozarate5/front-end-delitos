@@ -1,19 +1,27 @@
-import React, { useContext } from 'react';
+import React, { useContext, useRef } from 'react';
 import { AuthContext } from '../../auth/AuthContext';
 import NoAuthorized from '../ui/NoAuthorized';
 import '../../index.css';
 import Create from './Create';
+import jsPDF from 'jspdf';
 
 export default function Crimes() {
 
     const { isAdmin } = useContext(AuthContext);
+    const table = useRef();
+
+    const print = () => {
+        const pdf = new jsPDF("p", "mm", "a4");
+        pdf.fromHTML(table.current);
+        pdf.save("pdf");
+    }
 
     return (
         <>
         {isAdmin &&
-        (<div className="container">
-            <div className="table-responsive mb-5">
-                <table className="table">
+        (<div className="container" ref={table}>
+            <div className="table-responsive mb-5" >
+                <table className="table" >
                 <thead>
                 <tr>
                     <th scope="col">Id</th>
@@ -74,6 +82,14 @@ export default function Crimes() {
                 title="Agregar nuevo"
                 >
                     <i className="fas fa-plus-circle"></i>
+            </button>
+
+            <button 
+                className="btn btn-outline-primary"
+                title="Imprimir PDF"
+                onClick={print}
+            >
+                <i className="fas fa-print"></i>
             </button>
         </div>)
         }
